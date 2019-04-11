@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+#Import libraries
+import pandas as pd
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+sns.set()
+from sklearn.cluster import KMeans
+
+
+# In[ ]:
+
+
+data = pd.read_csv("users/dir/...")
+
+
+# In[ ]:
+
+
+data
+
+
+# In[ ]:
+
+
+#Plot the <i>'Longtitude'</i> and <i>'Latitude'</i> columns.
+plt.scatter(data['Longitude'], data['Latitude'])
+plt.xlim(-180,180)
+plt.ylim(-90,90)
+plt.show()
+
+
+# In[ ]:
+
+
+#Create a copy of that data and remove all parameters apart from <i>Longitude</i> and <i>Latitude</i>.
+data = data.copy()
+x = data.iloc[:,1:3]
+x
+
+
+# In[ ]:
+
+
+#initially assume 2 clusters
+kmeans = KMeans(2)
+
+
+# In[ ]:
+
+
+kmeans.fit(x)
+
+
+# In[ ]:
+
+
+identified_clusters = kmeans.fit_predict(x)
+identified_clusters
+
+
+# In[ ]:
+
+
+data_with_clusters = data.copy()
+data_with_clusters['Cluster'] = identified_clusters
+data_with_clusters
+
+
+# In[ ]:
+
+
+#plot data
+plt.scatter(data['Longitude'], data['Latitude'], c=data_with_clusters['Cluster'], cmap='rainbow')
+plt.xlim(-180,180)
+plt.ylim(-90,90)
+plt.show()
+                                   
+
